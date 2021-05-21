@@ -185,7 +185,7 @@ class Backtest(object):
         assert isinstance(subset, slice)
         eq = self.equity[subset].cumsum()
         
-        eq = self.equity.ix[subset].cumsum()
+        eq = self.equity.iloc[subset].cumsum()
         ix = eq.index
         eq.plot(color='red', style='-',ax=ax)
 
@@ -203,7 +203,7 @@ class Backtest(object):
     def plot_trades(self, subset=None, ax=None):
         if subset is None:
             subset = slice(None, None)
-        fr = self.trades.ix[subset]
+        fr = self.trades.iloc[subset]
         le = fr.price[(fr.pos > 0) & (fr.vol > 0)]
         se = fr.price[(fr.pos < 0) & (fr.vol < 0)]
         lx = fr.price[(fr.pos.shift() > 0) & (fr.vol < 0)]
@@ -223,6 +223,6 @@ class Backtest(object):
         ax.plot(sx.index, sx.values, 'o', color='red', markersize=7,
                    label='short exit')
         
-        self.ohlc.O.ix[subset].plot(color='black', label='price', ax=ax)
+        self.ohlc.O.iloc[subset].plot(color='black', label='price', ax=ax)
         ax.set_ylabel('Trades for %s' % subset)
         return _,ax
